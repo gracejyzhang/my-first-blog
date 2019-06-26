@@ -6,5 +6,15 @@
         <div>
             <h1>Recipe List</h1>
         </div>
+
+        <div>
+            <p>
+                {% for recipe in recipes %}
+                    <div>
+                        <h2><a href="">{{ recipe.title }}</a></h2>
+                    </div>
+                {% endfor %}
+            </p>
+        </div>
     </body>
 </html>
