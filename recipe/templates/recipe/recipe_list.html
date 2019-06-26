@@ -1,17 +1,23 @@
+{% load static %}
+
 <html>
     <head>
         <title>Recipe agenda</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/recipe.css' %}">
     </head>
     <body>
         <div>
             <h1>Recipe List</h1>
         </div>
 
-        <div>
+        <div class="recipe">
             <p>
                 {% for recipe in recipes %}
                     <div>
-                        <h2><a href="">{{ recipe.title }}</a></h2>
+                        <h2><a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a></h2>
                     </div>
                 {% endfor %}
             </p>
