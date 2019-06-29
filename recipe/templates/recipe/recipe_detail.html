@@ -1,2 +1,35 @@
-<h1>{{ recipe.title }}</h1>
-<p>{{ recipe.text|linebreaksbr }}</p>
+{% extends 'recipe/base.html' %}
+
+{% block content %}
+    <body>
+        <div>
+            <h1>{{ recipe.title }}</h1>
+        </div>
+
+        <div class="list">
+            <div>
+                <h2>Ingredients List</h2>
+            </div>
+            <div>
+                <ul>
+                    {% for ingredient in ingredients %}
+                            <li>{{ ingredient.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="list">
+            <div>
+                <h2>Instructions</h2>
+            </div>
+            <div>
+                <ol>
+                    {% for step in instructions %}
+                            <li>{{ step.text }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </body>
+{% endblock %}

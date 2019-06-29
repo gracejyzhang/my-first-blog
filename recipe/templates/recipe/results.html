@@ -1,0 +1,15 @@
+{% extends 'recipe/base.html' %}
+
+{% block content %}
+    <div>
+        <h1>Results</h1>
+    </div>
+
+    <div>
+        {% for result in results %}
+            <div>
+                <h2><a href="{% url 'recipe_detail' pk=result.pk %}">{{ result.title }}</a></h2>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
