@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Results</title>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Results</h1>
+    </div>
+
+    <div>
+        {% if results %}
+            {% for result in results %}
+                <div>
+                    <h2><a href="{% url 'recipe_detail' pk=result.pk %}">{{ result.title }}</a></h2>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            <h3>There were no matching results.</h3>
+        {% endif %}
+    </div>
+{% endblock %}

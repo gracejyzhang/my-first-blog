@@ -1,8 +1,16 @@
-{% extends 'recipe/base.html' %}
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Saved recipes</title>
+{% endblock %}
 
 {% block content %}
     <div>
-        <h1>Recipes</h1>
+        <h1>Saved Recipes</h1>
+    </div>
+
+    <div class="edit">
+        <p><a href=""></a></p>
     </div>
 
     <div class="recipes">
@@ -13,4 +21,3 @@
         {% endfor %}
     </div>
 {% endblock %}
-

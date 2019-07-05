@@ -1,9 +1,27 @@
-{% extends 'recipe/base.html' %}
+{% extends 'base.html' %}
+{% load queryset_filters %}
+
+{% block head %}
+    <title>{{ recipe.title }}</title>
+{% endblock %}
 
 {% block content %}
     <body>
         <div>
             <h1>{{ recipe.title }}</h1>
+        </div>
+
+        <div>
+            {% if not user.is_authenticated %}
+                <form action="{% url 'login' %}">
+                    <input type="submit" value="Add"/>
+                </form>
+
+            {% else %}
+                <form action = "" method = "POST">{% csrf_token %}
+                    <input type="submit" value={{user|check_list:recipe.pk}}>
+                </form>
+            {% endif %}
         </div>
 
         <div class="list">
@@ -13,7 +31,7 @@
             <div>
                 <ul>
                     {% for ingredient in ingredients %}
-                            <li>{{ ingredient.name }}</li>
+                        <li>{{ ingredient_quantity|get_quantity:ingredient }} {{ ingredient.name }}</li>
                     {% endfor %}
                 </ul>
             </div>
