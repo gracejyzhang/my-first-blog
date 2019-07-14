@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
-    inventory_users = models.ManyToManyField(User, related_name='ingredients')
+    users = models.ManyToManyField(User, related_name='ingredients')
 
     def __str__(self):
         return self.name

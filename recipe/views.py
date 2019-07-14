@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Recipe, Ingredient, IngredientQuantity, Instruction
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from .forms import AddDeleteForm, SearchForm
+from .forms import AddDeleteForm, SearchForm, EditSelect2Form
 
 # Create your views here.
 
@@ -29,6 +29,10 @@ def saved_recipes(request):
     recipes = Recipe.objects.filter(users=request.user)
     return render(request, 'saved_recipes/saved_recipes.html', {'recipes': recipes})
 
+def inventory(request):
+    ingredients = Ingredient.objects.filter(users=request.user)
+    return render(request, 'inventory/inventory.html', {'ingredients': ingredients})
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -42,5 +46,35 @@ def register(request):
 
     return render(request, 'registration/register.html', {'form': form})
 
+def edit(request):
+    if 'saved/' in request.path:
+        qs = Recipe.objects.all()
+        order = 'title'
+    elif 'inventory/' in request.path:
+        qs = Ingredient.objects.all()
+        order = 'name'
+
+    if request.method == 'POST':
+        if 'Delete' in request.POST:
+            form_delete = EditSelect2Form(qs.filter(users=request.user), request.POST)
+            if form_delete.is_valid():
+                for pk in request.POST.getlist('items'):
+                    item = qs.get(pk=pk)
+                    item.users.remove(request.user)
+            form_add = EditSelect2Form(qs.exclude(users=request.user).order_by(order))
+
+        elif 'Add' in request.POST:
+            form_add = EditSelect2Form(qs.exclude(users=request.user), request.POST)
+            if form_add.is_valid():
+                for pk in request.POST.getlist('items'):
+                    item = qs.get(pk=pk)
+                    item.users.add(request.user)
+            form_delete = EditSelect2Form(qs.filter(users=request.user).order_by(order))
+
+    else:
+        form_delete = EditSelect2Form(qs.filter(users=request.user).order_by(order))
+        form_add = EditSelect2Form(qs.exclude(users=request.user).order_by(order))
+
+    return render(request, 'edit.html', {'form_delete': form_delete, 'form_add': form_add})
 
 

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block nav-item-my-recipes %}active{% endblock %}
 
 {% block head %}
     <title>Saved recipes</title>
@@ -10,7 +11,7 @@
     </div>
 
     <div class="edit">
-        <p><a href=""></a></p>
+        <h5><a href="{% url 'edit_list' %}">Edit</a></h5>
     </div>
 
     <div class="recipes">

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block nav-item-inventory %}active{% endblock %}
+
+{% block head %}
+    <title>Inventory</title>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Ingredient Inventory</h1>
+    </div>
+
+    <div class="edit">
+        <h5><a href="{% url 'edit_inventory' %}">Edit</a></h5>
+    </div>
+
+    <div class="recipes">
+        <ul>
+            {% for ingredient in ingredients %}
+                <li>{{ ingredient.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

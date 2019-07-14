@@ -1,5 +1,7 @@
 from django import forms
+from django.forms import ModelMultipleChoiceField
 from .models import Recipe, Ingredient, IngredientQuantity
+from django_select2.forms import Select2MultipleWidget, ModelSelect2MultipleWidget
 
 ##Take another look at these forms; write more efficiently
 
@@ -37,3 +39,14 @@ class AddDeleteForm(forms.Form):
             recipe.users.remove(user)
         else:
             recipe.users.add(user)
+
+
+## figure out a way to use ModelSelect2MultipleWidget(queryset=Recipe.objects.all(), search_fields=['title_icontains']) - not working
+## arbitrarily used Recipe.objects.all() and Recipe.objects.none() as defaults; but this form is used for both recipe and ingredients
+## can I rename items so that it changes between recipes and ingredients depending on path?
+class EditSelect2Form(forms.Form):
+    items = forms.ModelMultipleChoiceField(widget=Select2MultipleWidget, queryset=Recipe.objects.all())
+
+    def __init__(self, qs=Recipe.objects.none(), *args, **kwargs):
+        super(EditSelect2Form, self).__init__(*args, **kwargs)
+        self.fields['items'].queryset = qs

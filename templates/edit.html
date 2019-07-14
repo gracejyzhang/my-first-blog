@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title>Edit
+		{% if 'saved/' in request.path %} 
+			recipes
+		{% else %}
+			inventory
+		{% endif %}
+	</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> 
+    {{ form.media.css }}
+{% endblock %}
+
+{% block content %}
+	<div><h1>Edit
+		{% if 'saved/' in request.path %}
+			Saved Recipes
+		{% else %}
+			Ingredient Inventory
+		{% endif %}
+	</h1></div>
+
+	<form method="post" action="">{% csrf_token %}
+		{{ form_delete }}
+		<input type="submit" value="Delete" name="Delete"/>
+	</form>
+	<form method="post" action="">{% csrf_token %}
+		{{ form_add }}
+		<input type="submit" value="Add" name="Add"/>
+	</form>
+	{{ form.media.js }}
+{% endblock %}
