@@ -9,21 +9,21 @@
 {% block content %}
     <body>
         <div class="container-fluid mt-3">
-            <div class="row">
-                <div class="col-4">
-                    <h1>{{ recipe.title|title }}</h1>
+            <div class="container-fluid row">
+                <h1>{{ recipe.title|title }}</h1>
+
+                <div>
+                    {% if not user.is_authenticated %}
+                        <form action="{% url 'login' %}" class="form-check mt-3">
+                            <input type="submit" value="Please login to add to your recipe list." class="btn btn-outline-secondary btn-sm"/>
+                        </form>
+
+                    {% else %}
+                        <form action = "" method = "POST" class="form-check mt-3">{% csrf_token %}
+                            <input type="submit" value={{user|check_list:recipe.pk}} class="btn btn-outline-secondary btn-sm">
+                        </form>
+                    {% endif %}
                 </div>
-
-                {% if not user.is_authenticated %}
-                    <form action="{% url 'login' %}" class="form-check mt-3">
-                        <input type="submit" value="Please login to add to your recipe list." class="btn btn-outline-secondary btn-sm"/>
-                    </form>
-
-                {% else %}
-                    <form action = "" method = "POST" class="form-check mt-3">{% csrf_token %}
-                        <input type="submit" value={{user|check_list:recipe.pk}} class="btn btn-outline-secondary btn-sm">
-                    </form>
-                {% endif %}
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                     </div>
                 </div>
 
-                <div class="col-6 ml-auto">
+                <div class="col-6">
                     <img src="{% static '/media/' %}{{recipe.title}}.jpg" alt="{{ recipe.title }} photo" width="90%">
                 </div>
             </div>

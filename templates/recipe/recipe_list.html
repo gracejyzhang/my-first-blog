@@ -8,17 +8,25 @@
 
 {% block content %}
     <div class="container-fluid mt-3">
-        <h1>Recipes</h1>
+        <div class="container-fluid row">
+            <h1>Recipes</h1>
+
+            <div>
+                <form action="{% url 'add_recipe' %}" class="form-check mt-3">
+                    <input type="submit" value="Add Recipe" class="btn btn-outline-secondary btn-sm"/>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="container-fluid mt-4">
         {% for recipe in recipes %}
-            <div class="row mt-3">
+            {% if forloop.first %}<div class="row mt-3">{% endif %}
                 <div class="col-4">
-                    <img src="{% static '/media/' %}{{recipe.title}}.jpg" alt="{{ recipe.title }} photo" width="95%">
+                    <img src="{% static '/media/' %}{{recipe.title}}.jpg" alt="{{ recipe.title }} photo" width="100%">
                 </div>
 
-                <div>
+                <div class="col-2">
                     <h2 class="mt-1"><a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title|title }}</a></h2>
                     <ul>
                         {% for ingredient in recipe.ingredients.all %}
@@ -26,7 +34,7 @@
                         {% endfor %}
                     </ul> 
                 </div>
-            </div>
+            {% if forloop.counter|divisibleby:2 %}</div><div class="row mt-3">{% endif %}
         {% endfor %}
     </div>
 {% endblock %}

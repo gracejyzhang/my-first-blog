@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from .forms import AddDeleteForm, SearchForm, EditSelect2Form, ShoppingListSelect
 
+
 # Create your views here.
 
 def recipe_list(request):
@@ -96,5 +97,8 @@ def edit(request):
         form_add = EditSelect2Form(qs.exclude(users=request.user).order_by(order), field)
 
     return render(request, 'edit.html', {'form_delete': form_delete, 'form_add': form_add})
+
+def add_recipe(request):
+    return render(request, 'recipe/add_recipe.html')
 
 

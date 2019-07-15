@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
-    users = models.ManyToManyField(User, related_name='ingredients')
+    users = models.ManyToManyField(User, related_name='ingredients', blank=True)
 
     def __str__(self):
         return self.name
@@ -14,8 +14,8 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     title = models.CharField(max_length=100)
     ingredients = models.ManyToManyField('Ingredient', through='IngredientQuantity', related_name='recipes') #'Ingredient', related_name='recipes' ##NEED TO LOOK AT THIS AGAIN
-    users = models.ManyToManyField(User, related_name='recipes')
-    tags = models.ManyToManyField('Tag', related_name='recipes')
+    users = models.ManyToManyField(User, related_name='recipes', blank=True)
+    tags = models.ManyToManyField('Tag', related_name='recipes', blank=True)
 
     def __str__(self):
         return self.title

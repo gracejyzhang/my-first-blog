@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelMultipleChoiceField, MultipleChoiceField, CheckboxSelectMultiple
 from .models import Recipe, Ingredient, Tag
-from django_select2.forms import Select2MultipleWidget, ModelSelect2MultipleWidget
+from .django_select2.forms import Select2MultipleWidget, ModelSelect2MultipleWidget
 
 ##Take another look at these forms; write more efficiently
 
