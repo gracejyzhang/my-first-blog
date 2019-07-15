@@ -16,3 +16,4 @@ def check_list(user, pk):
         return "Delete"
     else:
         return "Add"
+

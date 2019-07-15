@@ -1,52 +1,61 @@
 {% extends 'base.html' %}
 {% load queryset_filters %}
+{% load static %}
 
 {% block head %}
-    <title>{{ recipe.title }}</title>
+    <title>{{ recipe.title|title }}</title>
 {% endblock %}
 
 {% block content %}
     <body>
-        <div>
-            <h1>{{ recipe.title }}</h1>
-        </div>
+        <div class="container-fluid mt-3">
+            <div class="row">
+                <div class="col-4">
+                    <h1>{{ recipe.title|title }}</h1>
+                </div>
 
-        <div>
-            {% if not user.is_authenticated %}
-                <form action="{% url 'login' %}">
-                    <input type="submit" value="Add"/>
-                </form>
+                {% if not user.is_authenticated %}
+                    <form action="{% url 'login' %}" class="form-check mt-3">
+                        <input type="submit" value="Please login to add to your recipe list." class="btn btn-outline-secondary btn-sm"/>
+                    </form>
 
-            {% else %}
-                <form action = "" method = "POST">{% csrf_token %}
-                    <input type="submit" value={{user|check_list:recipe.pk}}>
-                </form>
-            {% endif %}
-        </div>
-
-        <div class="list">
-            <div>
-                <h2>Ingredients List</h2>
-            </div>
-            <div>
-                <ul>
-                    {% for ingredient in ingredients %}
-                        <li>{{ ingredient_quantity|get_quantity:ingredient }} {{ ingredient.name }}</li>
-                    {% endfor %}
-                </ul>
+                {% else %}
+                    <form action = "" method = "POST" class="form-check mt-3">{% csrf_token %}
+                        <input type="submit" value={{user|check_list:recipe.pk}} class="btn btn-outline-secondary btn-sm">
+                    </form>
+                {% endif %}
             </div>
         </div>
 
-        <div class="list">
-            <div>
-                <h2>Instructions</h2>
-            </div>
-            <div>
-                <ol>
-                    {% for step in instructions %}
-                            <li>{{ step.text }}</li>
-                    {% endfor %}
-                </ol>
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div>
+                        <h2>Ingredients List</h2>
+                    </div>
+                    <div>
+                        <ul>
+                            {% for ingredient in ingredients %}
+                                <li>{{ ingredient_quantity|get_quantity:ingredient }} {{ ingredient.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h2>Instructions</h2>
+                    </div>
+                    <div>
+                        <ol>
+                            {% for step in instructions %}
+                                    <li>{{ step.text }}</li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="col-6 ml-auto">
+                    <img src="{% static '/media/' %}{{recipe.title}}.jpg" alt="{{ recipe.title }} photo" width="90%">
+                </div>
             </div>
         </div>
     </body>

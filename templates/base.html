@@ -18,8 +18,8 @@
 <body>
     <nav class="navbar navbar-expand-sm sticky-top bg-dark navbar-dark">
         <form class="form-inline" action="{% url 'search' %}" method="GET" class="search-bar">{% csrf_token %}
-            <input type="text" name="q" placeholder="Search">
-            <button class="btn btn-sm btn-outline-secondary nav-item text-white" type="submit">Submit</button>
+            <input type="text" name="q" placeholder="Search recipes...">
+            <input type="submit" value="Search" class="btn btn-sm btn-outline-secondary nav-item text-white"/>
         </form>
 
         <ul class="navbar-nav ml-auto">
@@ -37,6 +37,12 @@
             <li class="nav-item {% block nav-item-inventory %}{% endblock %}">
                 {% if user.is_authenticated %}
                     <a class="nav-link" href="{% url 'inventory' %}">Inventory</a>
+                {% endif %}
+            </li>
+
+            <li class="nav-item {% block nav-item-shopping-list %}{% endblock %}">
+                {% if user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'shopping_list' %}">Shopping List</a>
                 {% endif %}
             </li>
 

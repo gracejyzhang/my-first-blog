@@ -15,6 +15,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=100)
     ingredients = models.ManyToManyField('Ingredient', through='IngredientQuantity', related_name='recipes') #'Ingredient', related_name='recipes' ##NEED TO LOOK AT THIS AGAIN
     users = models.ManyToManyField(User, related_name='recipes')
+    tags = models.ManyToManyField('Tag', related_name='recipes')
 
     def __str__(self):
         return self.title
@@ -33,3 +34,9 @@ class Instruction(models.Model):
     number = models.IntegerField()
     text = models.CharField(max_length=500)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+
+class Tag(models.Model):
+    text = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.text

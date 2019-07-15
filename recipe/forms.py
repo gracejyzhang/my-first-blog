@@ -1,6 +1,6 @@
 from django import forms
-from django.forms import ModelMultipleChoiceField
-from .models import Recipe, Ingredient, IngredientQuantity
+from django.forms import ModelMultipleChoiceField, MultipleChoiceField, CheckboxSelectMultiple
+from .models import Recipe, Ingredient, Tag
 from django_select2.forms import Select2MultipleWidget, ModelSelect2MultipleWidget
 
 ##Take another look at these forms; write more efficiently
@@ -10,6 +10,7 @@ class SearchForm(forms.Form):
         query = query.split()
         recipes = Recipe.objects.all()
         ingredients = Ingredient.objects.all()
+        tags = Tag.objects.all()
         results = []
 
         for recipe in recipes:
@@ -22,6 +23,13 @@ class SearchForm(forms.Form):
             for item in query:
                 if item.lower() in self.clean(ingredient.name):
                     for entry in Recipe.objects.filter(ingredients__name=ingredient.name):
+                        if entry not in results:
+                            results.append(entry)
+
+        for tag in tags:
+            for item in query:
+                if item.lower() in self.clean(tag.text):
+                    for entry in Recipe.objects.filter(tags__text=tag.text):
                         if entry not in results:
                             results.append(entry)
 
@@ -45,8 +53,17 @@ class AddDeleteForm(forms.Form):
 ## arbitrarily used Recipe.objects.all() and Recipe.objects.none() as defaults; but this form is used for both recipe and ingredients
 ## can I rename items so that it changes between recipes and ingredients depending on path?
 class EditSelect2Form(forms.Form):
-    items = forms.ModelMultipleChoiceField(widget=Select2MultipleWidget, queryset=Recipe.objects.all())
+    items = ModelMultipleChoiceField(widget=Select2MultipleWidget, queryset=Recipe.objects.all(), required=False)
 
-    def __init__(self, qs=Recipe.objects.none(), *args, **kwargs):
+    def __init__(self, qs=Recipe.objects.none(), field_name='items', *args, **kwargs):
         super(EditSelect2Form, self).__init__(*args, **kwargs)
         self.fields['items'].queryset = qs
+        self.fields[field_name] = self.fields['items']
+        del self.fields['items']
+
+class ShoppingListSelect(forms.Form):
+    ingredients = MultipleChoiceField(choices=('',''), widget=CheckboxSelectMultiple, required=False)
+
+    def __init__(self, choices=('',''), *args, **kwargs):
+        super(ShoppingListSelect, self).__init__(*args, **kwargs)
+        self.fields['ingredients'].choices = choices

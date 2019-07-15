@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block head %}
 	<title>Edit
@@ -13,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-	<div><h1>Edit
+	<div class="container-fluid mt-3"><h1>Edit
 		{% if 'saved/' in request.path %}
 			Saved Recipes
 		{% else %}
@@ -21,13 +22,13 @@
 		{% endif %}
 	</h1></div>
 
-	<form method="post" action="">{% csrf_token %}
-		{{ form_delete }}
-		<input type="submit" value="Delete" name="Delete"/>
+	<form method="post" action="" class="form-check">{% csrf_token %}
+		{{ form_delete| crispy }}
+		<input type="submit" value="Delete" name="Delete" class="btn btn-outline-secondary btn-sm"/>
 	</form>
-	<form method="post" action="">{% csrf_token %}
-		{{ form_add }}
-		<input type="submit" value="Add" name="Add"/>
+	<form method="post" action="" class="form-check mt-3">{% csrf_token %}
+		{{ form_add| crispy }}
+		<input type="submit" value="Add" name="Add" class="btn btn-outline-secondary btn-sm"/>
 	</form>
 	{{ form.media.js }}
 {% endblock %}

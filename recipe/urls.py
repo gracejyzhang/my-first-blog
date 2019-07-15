@@ -9,5 +9,6 @@ urlpatterns = [
     path('saved/edit/', views.edit, name='edit_list'),
     path('select2/', include('django_select2.urls')),
     path('inventory/', views.inventory, name='inventory'),
-    path('inventory/edit/', views.edit, name='edit_inventory')
+    path('inventory/edit/', views.edit, name='edit_inventory'),
+    path('shopping_list/', views.shopping_list, name='shopping_list'),
 ]

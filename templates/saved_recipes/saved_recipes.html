@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block nav-item-my-recipes %}active{% endblock %}
 
 {% block head %}
@@ -6,18 +7,35 @@
 {% endblock %}
 
 {% block content %}
-    <div>
-        <h1>Saved Recipes</h1>
-    </div>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-4">
+                <h1>Saved Recipes</h1>
+            </div>
 
-    <div class="edit">
-        <h5><a href="{% url 'edit_list' %}">Edit</a></h5>
-    </div>
-
-    <div class="recipes">
-        {% for recipe in recipes %}
             <div>
-                <h2><a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title }}</a></h2>
+                <form action="{% url 'edit_list' %}" class="form-check mt-3">
+                    <input type="submit" value="Edit" class="btn btn-outline-secondary btn-sm"/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-3">
+        {% for recipe in recipes %}
+            <div class="row mt-3">
+                <div class="col-4">
+                    <img src="{% static '/media/' %}{{recipe.title}}.jpg" alt="{{ recipe.title }} photo" width="95%">
+                </div>
+
+                <div>
+                    <h2 class="mt-1"><a href="{% url 'recipe_detail' pk=recipe.pk %}">{{ recipe.title|title }}</a></h2>
+                    <ul>
+                        {% for ingredient in recipe.ingredients.all %}
+                            <li>{{ ingredient.name }}</li>
+                        {% endfor %}
+                    </ul> 
+                </div>
             </div>
         {% endfor %}
     </div>
