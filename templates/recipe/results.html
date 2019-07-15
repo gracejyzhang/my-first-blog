@@ -10,15 +10,15 @@
         <h1>Results</h1>
     </div>
 
-    <div class="container-fluid mt-3">
-        {% if results %}
+    <div class="container-fluid mt-4">
+        {% if results %} 
             {% for result in results %}
-                <div class="row mt-3">
+                {% if forloop.first %}<div class="row mt-3">{% endif %}
                     <div class="col-4">
-                        <img src="{% static '/media/' %}{{result.title}}.jpg" alt="{{ result.title }} photo" width="95%">
+                        <img src="{% static '/media/' %}{{result.title}}.jpg" alt="{{ result.title }} photo" width="100%">
                     </div>
 
-                    <div>
+                    <div class="col-2">
                         <h2 class="mt-1"><a href="{% url 'recipe_detail' pk=result.pk %}">{{ result.title|title }}</a></h2>
                         <ul>
                             {% for ingredient in result.ingredients.all %}
@@ -26,9 +26,9 @@
                             {% endfor %}
                         </ul> 
                     </div>
-                </div>
+                {% if forloop.counter|divisibleby:2 %}</div><div class="row mt-3">{% endif %}
             {% endfor %}
-
+            
         {% else %}
             <h3>There were no matching results.</h3>
         {% endif %}

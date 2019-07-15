@@ -5,6 +5,7 @@ from .django_select2.forms import Select2MultipleWidget, ModelSelect2MultipleWid
 
 ##Take another look at these forms; write more efficiently
 
+## displays matches in the following order: match with first word in query to match with last word query
 class SearchForm(forms.Form):
     def search(self, query):
         query = query.split()
@@ -13,21 +14,17 @@ class SearchForm(forms.Form):
         tags = Tag.objects.all()
         results = []
 
-        for recipe in recipes:
-            for item in query:
+        for item in query:
+            for recipe in recipes:
                 if item.lower() in self.clean(recipe.title):
                     if recipe not in results:
                         results.append(recipe)
-
-        for ingredient in ingredients:
-            for item in query:
+            for ingredient in ingredients:
                 if item.lower() in self.clean(ingredient.name):
                     for entry in Recipe.objects.filter(ingredients__name=ingredient.name):
                         if entry not in results:
                             results.append(entry)
-
-        for tag in tags:
-            for item in query:
+            for tag in tags:
                 if item.lower() in self.clean(tag.text):
                     for entry in Recipe.objects.filter(tags__text=tag.text):
                         if entry not in results:

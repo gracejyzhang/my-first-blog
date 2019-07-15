@@ -6,19 +6,13 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container-fluid mt-3">
+        <h1>Login</h1>
+    </div>
+
     {% if form.errors %}
         <div class="container-fluid mt-3">
-            <p>Your username and password didn't match. Please try again.</p>
-        </div>
-    {% endif %}
-
-    {% if next %}
-        <div class="container-fluid mt-3">
-            {% if user.is_authenticated %}
-                <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
-            {% else %}
-                <p>Please login to see this page.</p>
-            {% endif %}
+            <p class="text-danger">Your username and password didn't match. Please try again.</p>
         </div>
     {% endif %}
 
@@ -40,7 +34,7 @@
     <div class="container-fluid mt-3">
         <p>
             <a href="{% url 'register' %}">Register</a>
-            <br><a href="{% url 'password_reset' %}">Lost password?</a>
+            <br><a href="{% url 'password_reset' %}">Forgot password?</a>
         </p>
     </div>
 {% endblock %}
