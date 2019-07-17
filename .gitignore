@@ -6,4 +6,4 @@ db.sqlite3
 /static
 .DS_Store
 secret_settings.py
-secret_settings.py
+
