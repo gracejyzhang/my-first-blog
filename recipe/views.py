@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from .models import Recipe, Ingredient, IngredientQuantity, Instruction
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from .forms import AddDeleteForm, SearchForm, EditSelect2Form, ShoppingListSelect
 
